@@ -11,6 +11,7 @@ class Product extends Component {
         <Name text={name} />
         <Price text={price} />
         <Description text={description} />
+        <hr />
       </div>
     );
   }
