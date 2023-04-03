@@ -1,0 +1,13 @@
+.taskButtons {
+  display: flex;
+  justify-content: flex-end;
+}
+.editButton {
+  margin-right: 10px;
+}
+.taskCheckbox input {
+  cursor: pointer;
+}
+.taskCheckbox {
+  margin-bottom: 10px;
+}
