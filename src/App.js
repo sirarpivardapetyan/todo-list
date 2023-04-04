@@ -2,6 +2,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Todo from "./components/todo/Todo";
+import Counter from "../src/Counter"
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       </header>
       <main>
         <Todo />
+        <Counter/>
       </main>
     </div>
   );
