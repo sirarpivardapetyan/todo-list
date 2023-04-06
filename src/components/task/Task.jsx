@@ -2,6 +2,7 @@ import { Col, Button, Card, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import styles from "./task.module.css";
+import { memo } from "react";
 function Task(props) {
   const taskData = props.data;
   return (
@@ -40,4 +41,4 @@ function Task(props) {
   );
 }
 
-export default Task;
+export default memo(Task);
