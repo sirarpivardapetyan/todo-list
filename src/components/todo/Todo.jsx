@@ -65,7 +65,6 @@ class Todo extends Component {
     this.setState({
       selectedTasks,
     });
-    console.log(selectedTasks);
   };
 
   deleteSelectedTasks = () => {
@@ -81,7 +80,6 @@ class Todo extends Component {
       selectedTasks: new Set(),
       isConfirmDialogOpen: false,
     });
-    console.log(this.selectedTasks);
   };
 
   openConfirmDialog = () => {
