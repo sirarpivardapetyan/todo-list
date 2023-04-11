@@ -12,6 +12,7 @@ class Todo extends Component {
     tasks: [],
     newTaskTitle: "",
     selectedTasks: new Set(),
+    isConfirmDialogOpen: false,
   };
 
   handleInputChange = (event) => {
@@ -64,7 +65,6 @@ class Todo extends Component {
     this.setState({
       selectedTasks,
     });
-    console.log(selectedTasks);
   };
 
   deleteSelectedTasks = () => {
@@ -78,11 +78,25 @@ class Todo extends Component {
     this.setState({
       tasks: newTasks,
       selectedTasks: new Set(),
+      isConfirmDialogOpen: false,
     });
-    console.log(this.selectedTasks);
   };
 
+  openConfirmDialog = () => {
+    console.log("isConfirmDialogOpen");
+    this.setState({
+      isConfirmDialogOpen: true,
+    });
+  };
+
+  closeConfirmDialog = () => {
+    console.log("isConfirmDialogclose");
+    this.setState({
+      isConfirmDialogOpen: false,
+    });
+  };
   render() {
+    const { isConfirmDialogOpen, selectedTasks } = this.state;
     return (
       <Container>
         <Row className="justify-content-center">
@@ -117,13 +131,14 @@ class Todo extends Component {
             );
           })}
         </Row>
+
         <Row>
           <Col>
             <Button
               variant="btn btn-outline-danger"
               className="btn-sm mr-8 mt-5 d-flex justify-content-center align-items-center float-end"
-              disabled={!this.state.selectedTasks.size}
-              onClick={this.deleteSelectedTasks}
+              disabled={!selectedTasks.size}
+              onClick={this.openConfirmDialog}
             >
               <FontAwesomeIcon
                 className={styles.deleteSelectedIcon}
@@ -133,7 +148,13 @@ class Todo extends Component {
             </Button>
           </Col>
         </Row>
-        <ConfirmDialog />
+        {isConfirmDialogOpen && (
+          <ConfirmDialog
+            onCancel={this.closeConfirmDialog}
+            onSubmit={this.deleteSelectedTasks}
+            tasksCount={selectedTasks.size}
+          />
+        )}
       </Container>
     );
   }
