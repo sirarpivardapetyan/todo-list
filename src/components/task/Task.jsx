@@ -1,8 +1,10 @@
+import PropTypes from "prop-types";
+import { memo } from "react";
 import { Col, Button, Card, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import styles from "./task.module.css";
-import { memo } from "react";
+
 function Task(props) {
   const taskData = props.data;
   return (
@@ -17,7 +19,7 @@ function Task(props) {
           <Form.Check
             className={styles.taskCheckbox}
             onClick={() => {
-              props.onSelectCheckbox(taskData.id);
+              props.onSelectCheckbox(taskData._id);
             }}
           />
           <Card.Title>{taskData.title}</Card.Title>
@@ -28,7 +30,7 @@ function Task(props) {
             </Button>
             <Button
               onClick={() => {
-                props.onDeleteButton(taskData.id);
+                props.onDeleteButton(taskData._id);
               }}
               variant="danger"
             >
@@ -40,5 +42,10 @@ function Task(props) {
     </Col>
   );
 }
+Task.propTypes = {
+  data: PropTypes.object.isRequired,
+  onDeleteButton: PropTypes.func.isRequired,
+  onSelectCheckbox: PropTypes.func.isRequired,
+};
 
 export default memo(Task);
