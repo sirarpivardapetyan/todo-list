@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Modal, Button } from "react-bootstrap";
 
 function ConfirmDialog(props) {
@@ -5,7 +6,9 @@ function ConfirmDialog(props) {
     <Modal size="md" show={true} onHide={props.onCancel}>
       <Modal.Header closeButton>
         <Modal.Title>
-          Are you sure to delete {props.tasksCount !== 0 ? props.tasksCount : null} {props.tasksCount > 1 ? 'tasks' : 'task'}?
+          Are you sure to delete{" "}
+          {props.tasksCount !== 0 ? props.tasksCount : null}{" "}
+          {props.tasksCount > 1 ? "tasks" : "task"}?
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="d-flex justify-content-center gap-4">
@@ -19,5 +22,10 @@ function ConfirmDialog(props) {
     </Modal>
   );
 }
+
+ConfirmDialog.propTypes = {
+  onCancel: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+};
 
 export default ConfirmDialog;

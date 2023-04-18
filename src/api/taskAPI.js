@@ -1,4 +1,4 @@
-const taskApiUrl = process.env.REACT_APP_API_URL + "/task";
+const taskApiUrl = process.env.REACT_APP_API_URL;
 
 class TaskApi {
   #request(method, body = null) {
