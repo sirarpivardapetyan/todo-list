@@ -1,18 +1,20 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, InputGroup, Form, Button } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
 import Task from "../task/Task";
 import styles from "./todo.module.css";
 import ConfirmDialog from "../ConfirmDialog";
 import DeleteSelected from "../deleteSelected/DeleteSelected";
 import TaskApi from "../../api/taskAPI";
+import TaskModal from "../taskModal/TaskModal";
 
 const taskApi = new TaskApi();
 
 function Todo() {
   const [tasks, setTasks] = useState([]);
-  const [newTaskTitle, setNewTaskTitle] = useState("");
   const [selectedTasks, setSelectedTasks] = useState(new Set());
   const [taskToDelete, setTaskToDelete] = useState(null);
+  const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
 
   useEffect(() => {
     taskApi.getAll().then((tasks) => {
@@ -21,29 +23,28 @@ function Todo() {
   }, []);
 
   const handleInputChange = (event) => {
-    setNewTaskTitle(event.target.value);
+    // setNewTaskTitle(event.target.value);
   };
 
-  const addNewTaskDatas = () => {
-    const trimmedTitle = newTaskTitle.trim();
-    if (!trimmedTitle) {
-      return;
-    }
-    const newTask = {
-      title: trimmedTitle,
-    };
-
-    taskApi.add(newTask).then((task) => {
-      const tasksCopy = [...tasks];
-      tasksCopy.push(task);
-      setTasks(tasksCopy);
-      setNewTaskTitle("");
-    });
+  const onAddNewTaskDatas = (newTask) => {
+    taskApi
+      .add(newTask)
+      .then((task) => {
+        const tasksCopy = [...tasks];
+        tasksCopy.push(task);
+        setTasks(tasksCopy);
+        setIsAddTaskModalOpen(false);
+        toast.success("The task has been added successfully");
+      })
+      .catch((err) => {
+        console.log("err", err);
+        toast.error(err.message)
+      });
   };
 
   const handleInputKeyDown = (event) => {
     if (event.key === "Enter") {
-      addNewTaskDatas();
+      onAddNewTaskDatas();
     }
   };
 
@@ -55,6 +56,7 @@ function Todo() {
       newSelectedTasks.delete(taskId);
       setSelectedTasks(newSelectedTasks);
     }
+    toast.info("The task has been deleted successfully")
   };
   const onSelectCheckbox = (taskId) => {
     const selectedTasksCopy = new Set(selectedTasks);
@@ -62,11 +64,11 @@ function Todo() {
       ? selectedTasksCopy.delete(taskId)
       : selectedTasksCopy.add(taskId);
     setSelectedTasks(selectedTasksCopy);
+
   };
 
   const deleteSelectedTasks = () => {
     const newTasks = [];
-
     tasks.forEach((task) => {
       if (!selectedTasks.has(task._id)) {
         newTasks.push(task);
@@ -74,26 +76,19 @@ function Todo() {
     });
     setTasks(newTasks);
     setSelectedTasks(new Set());
+    toast.info(`The ${selectedTasks.size} task/tasks has/have been deleted successfully`)
   };
+  let newTaskTitle = "";
   return (
     <Container>
       <Row className="justify-content-center">
         <Col xs="12" sm="10" md="8">
-          <InputGroup>
-            <Form.Control
-              placeholder="Input task title"
-              onChange={handleInputChange}
-              onKeyDown={handleInputKeyDown}
-              value={newTaskTitle}
-            />
-            <Button
-              variant="btn btn-outline-success"
-              onClick={addNewTaskDatas}
-              disabled={!newTaskTitle.trim()}
-            >
-              Add
-            </Button>
-          </InputGroup>
+          <Button
+            variant="btn btn-outline-success"
+            onClick={() => setIsAddTaskModalOpen(true)}
+          >
+            Add new task
+          </Button>
         </Col>
       </Row>
 
@@ -126,6 +121,26 @@ function Todo() {
           tasksCount={1}
         />
       )}
+      {isAddTaskModalOpen && (
+        <TaskModal
+          onCancel={() => {
+            setIsAddTaskModalOpen(false);
+          }}
+          onSave={onAddNewTaskDatas}
+        />
+      )}
+      <ToastContainer
+        position="bottom-left"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </Container>
   );
 }

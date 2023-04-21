@@ -11,7 +11,14 @@ class TaskApi {
     if (body !== null) {
       params.body = JSON.stringify(body);
     }
-    return fetch(taskApiUrl, params).then((response) => response.json());
+    return fetch(taskApiUrl, params)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          throw data.error;
+        }
+        return data;
+      });
   }
   getAll() {
     return this.#request("GET");

@@ -23,7 +23,7 @@ function Task(props) {
             }}
           />
           <Card.Title>{taskData.title}</Card.Title>
-          <Card.Text>Description</Card.Text>
+          <Card.Text>{taskData.description}</Card.Text>
           <div className={styles.taskButtons}>
             <Button className={styles.editButton} variant="warning">
               <FontAwesomeIcon icon={faPenToSquare} />
