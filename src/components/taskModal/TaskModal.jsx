@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import { InputGroup, Form, Button, Modal } from "react-bootstrap";
 import styles from "./taskModal.module.css";
+import {formatDate} from "../../tools/dateFormat"
 
 function TaskModal(props) {
   const [title, setTitle] = useState("");
@@ -14,7 +15,7 @@ function TaskModal(props) {
 const newTask = {
   title: title.trim(),
   description: description.trim(),
-   date: date.toISOString().slice(0, 10),
+   date: formatDate(date),
 }
 props.onSave(newTask);
   }
@@ -23,7 +24,7 @@ props.onSave(newTask);
     const {value} = event.target;
     const trimmedTitle = value.trim();
     setIsTitleValid(!!trimmedTitle);
-    setTitle(value);
+    setTitle(trimmedTitle);
   }
   return (
     <Modal size="md" show={true} onHide={props.onCancel}>

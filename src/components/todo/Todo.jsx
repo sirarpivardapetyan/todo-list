@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, Row, Col, InputGroup, Form, Button } from "react-bootstrap";
+import { Container, Row, Col, InputGroup,  Button } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import Task from "../task/Task";
 import styles from "./todo.module.css";
@@ -15,6 +15,7 @@ function Todo() {
   const [selectedTasks, setSelectedTasks] = useState(new Set());
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
+  const [, setIsEditing] = useState(false);
 
   useEffect(() => {
     taskApi.getAll().then((tasks) => {
@@ -22,9 +23,7 @@ function Todo() {
     });
   }, []);
 
-  const handleInputChange = (event) => {
-    // setNewTaskTitle(event.target.value);
-  };
+ 
 
   const onAddNewTaskDatas = (newTask) => {
     taskApi
@@ -37,26 +36,28 @@ function Todo() {
         toast.success("The task has been added successfully");
       })
       .catch((err) => {
-        console.log("err", err);
         toast.error(err.message)
       });
   };
 
-  const handleInputKeyDown = (event) => {
-    if (event.key === "Enter") {
-      onAddNewTaskDatas();
-    }
-  };
+ 
 
   const onDeleteButton = (taskId) => {
-    const newTasks = tasks.filter((task) => task._id !== taskId);
-    setTasks(newTasks);
-    if (selectedTasks.has(taskId)) {
-      const newSelectedTasks = new Set(selectedTasks);
-      newSelectedTasks.delete(taskId);
-      setSelectedTasks(newSelectedTasks);
-    }
-    toast.info("The task has been deleted successfully")
+    taskApi
+    .delete(taskId)
+    .then(() => {
+      const newTasks = tasks.filter((task) => task._id !== taskId);
+      setTasks(newTasks);
+      if (selectedTasks.has(taskId)) {
+        const newSelectedTasks = new Set(selectedTasks);
+        newSelectedTasks.delete(taskId);
+        setSelectedTasks(newSelectedTasks);
+      }
+      toast.info("The task has been deleted successfully")
+    })
+    .catch((err) => {
+      toast.error(err.message)
+    });
   };
   const onSelectCheckbox = (taskId) => {
     const selectedTasksCopy = new Set(selectedTasks);
@@ -68,21 +69,38 @@ function Todo() {
   };
 
   const deleteSelectedTasks = () => {
-    const newTasks = [];
-    tasks.forEach((task) => {
-      if (!selectedTasks.has(task._id)) {
-        newTasks.push(task);
-      }
+    taskApi
+    .deleteMany([...selectedTasks])
+    .then(() => {
+      const newTasks = [];
+      const selectedTasksCount = selectedTasks.size;
+      tasks.forEach((task) => {
+        if (!selectedTasks.has(task._id)) {
+          newTasks.push(task);
+        }
+      });
+      setTasks(newTasks);
+      setSelectedTasks(new Set());
+      toast.info(`The ${selectedTasksCount} task/tasks has/have been deleted successfully`)
+    })
+    .catch((err) => {
+      toast.error(err.message)
     });
-    setTasks(newTasks);
-    setSelectedTasks(new Set());
-    toast.info(`The ${selectedTasks.size} task/tasks has/have been deleted successfully`)
   };
-  let newTaskTitle = "";
+
+  const selectAllTasks = () => {
+    const taskIds = tasks.map((task) => task._id);
+    setSelectedTasks(new Set(taskIds));
+  };
+
+  const resetSelectedTasks = () => {
+    setSelectedTasks(new Set());
+  };
+
   return (
     <Container>
-      <Row className="justify-content-center">
-        <Col xs="12" sm="10" md="8">
+      <Row className="justify-content-center mb-4">
+        <Col  xs="6" sm="4" md="3">
           <Button
             variant="btn btn-outline-success"
             onClick={() => setIsAddTaskModalOpen(true)}
@@ -90,7 +108,22 @@ function Todo() {
             Add new task
           </Button>
         </Col>
-      </Row>
+        </Row>
+        <Row> 
+ <Col xs="12" sm="12" md="12">
+ <div className = "d-flex justify-content-end align-items-center gap-3">
+          <Button variant="outline-warning" onClick={selectAllTasks}>
+            Select all
+          </Button>
+          <Button variant="outline-secondary" onClick={resetSelectedTasks}>
+            Reset 
+          </Button>
+          
+
+          </div>
+          </Col>
+       
+          </Row>
 
       <Row>
         {tasks.map((task) => {
@@ -100,6 +133,8 @@ function Todo() {
               key={task._id}
               onDeleteButton={setTaskToDelete}
               onSelectCheckbox={onSelectCheckbox}
+              checked ={selectedTasks.has(task._id)}
+              onTaskEdit={setEditingTask}
             />
           );
         })}
@@ -129,6 +164,16 @@ function Todo() {
           onSave={onAddNewTaskDatas}
         />
       )}
+
+{isAddTaskModalOpen && (
+        <TaskModal
+          onCancel={() => {
+            setIsAddTaskModalOpen(false);
+          }}
+          onSave={onAddNewTaskDatas}
+        />
+      )}
+
       <ToastContainer
         position="bottom-left"
         autoClose={2000}
