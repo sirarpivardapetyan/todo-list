@@ -6,9 +6,6 @@ import { faTrashCan, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import styles from "./task.module.css";
 import { formatDate } from "../../tools/dateFormat"
 
-
-
-
 function Task(props) {
   const taskData = props.data;
   return (
@@ -28,15 +25,18 @@ function Task(props) {
               props.onSelectCheckbox(taskData._id);
             }}
           />
-            <Card.Text className="text-warning">Status: {taskData.status}</Card.Text>
+            <Card.Text className="text-info">Status: {taskData.status}</Card.Text>
           </div>
 
           <Card.Title className={styles.textShorter}>{taskData.title}</Card.Title>
           <Card.Text className={styles.textShorter}>{taskData.description}</Card.Text>
-          <div className="d-flex justify-content-center gap-2 "> <Card.Text className="text-info">Created_at: {formatDate(taskData.created_at)}</Card.Text>
-            <Card.Text className="text-danger">Deadline: {formatDate(taskData.date)}</Card.Text></div>
+          <div className="d-flex gap-5  "> <Card.Text className="text-success">Created_at: <br/>{formatDate(taskData.created_at)}</Card.Text>
+            <Card.Text className="text-danger">Deadline: <br/>{formatDate(taskData.date)}</Card.Text></div>
           <div className={styles.taskButtons}>
-            <Button className={styles.editButton} variant="warning">
+            <Button className={styles.editButton}
+             variant="warning"
+             onClick = {()=>{props.onTaskEdit(taskData)}}
+             >
               <FontAwesomeIcon icon={faPenToSquare} />
             </Button>
             <Button

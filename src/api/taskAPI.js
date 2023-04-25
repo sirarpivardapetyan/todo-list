@@ -37,6 +37,9 @@ class TaskApi {
   deleteMany(taskIds){
     return this.#request("PATCH", {body: {tasks: taskIds}});
   }
+  update(editedTask) {
+    return this.#request("PUT", {body: editedTask, params: editedTask._id});
+  };
 }
 
 export default TaskApi;
