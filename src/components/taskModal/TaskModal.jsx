@@ -43,7 +43,6 @@ function TaskModal(props) {
       <Modal.Header closeButton>
         <Modal.Title>Add new task</Modal.Title>
       </Modal.Header>
-
       <Modal.Body>
         <Form.Control
           className={`${!isTitleValid ? styles.invalid : ""} mb-2`}

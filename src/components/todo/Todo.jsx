@@ -2,10 +2,9 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col, InputGroup, Button } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import Task from "../task/Task";
-import styles from "./todo.module.css";
 import ConfirmDialog from "../ConfirmDialog";
 import DeleteSelected from "../deleteSelected/DeleteSelected";
-import TaskApi from "../../api/taskAPI";
+import TaskApi from "../../api/taskApi";
 import TaskModal from "../taskModal/TaskModal";
 
 const taskApi = new TaskApi();
@@ -93,12 +92,15 @@ function Todo() {
   const resetSelectedTasks = () => {
     setSelectedTasks(new Set());
   };
+
   const onEditTask = (editedTask) => {
     taskApi
       .update(editedTask)
       .then((task) => {
-        console.log("task", task);
-        // TODO find and replace the task in the state
+        const copyTasks = [...tasks];
+        const foundIndex = copyTasks.findIndex((t)=>t._id === task._id);
+        copyTasks[foundIndex] = task;
+        setTasks(copyTasks);
         toast.success(`Tasks havs been updated successfully!`);
         setEditingTask(null);
       })
@@ -106,7 +108,6 @@ function Todo() {
         toast.error(err.message);
       });
   };
-
   return (
     <Container>
       <Row className="justify-content-center mb-4">
@@ -131,7 +132,6 @@ function Todo() {
           </div>
         </Col>
       </Row>
-
       <Row>
         {tasks.map((task) => {
           return (
@@ -171,7 +171,6 @@ function Todo() {
           onSave={onAddNewTaskDatas}
         />
       )}
-
       {editingTask && (
         <TaskModal
           onCancel={() => {
@@ -181,7 +180,6 @@ function Todo() {
           data={editingTask}
         />
       )}
-
       <ToastContainer
         position="bottom-left"
         autoClose={2000}

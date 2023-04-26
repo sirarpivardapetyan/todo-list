@@ -2,7 +2,7 @@ const taskApiUrl = process.env.REACT_APP_API_URL;
 
 class TaskApi {
   #request(method, data = {}) {
-   const {body, params} = data;
+    const { body, params } = data;
     const req = {
       method: method,
       headers: {
@@ -13,7 +13,7 @@ class TaskApi {
       req.body = JSON.stringify(body);
     }
     let url = taskApiUrl;
-    if(params){
+    if (params) {
       url = `${url}/${params}`;
     }
     return fetch(url, req)
@@ -29,17 +29,17 @@ class TaskApi {
     return this.#request("GET");
   }
   add(task) {
-    return this.#request("POST", {body: task});
+    return this.#request("POST", { body: task });
   }
-  delete(taskId){
-    return this.#request("DELETE", {params: taskId});
+  delete(taskId) {
+    return this.#request("DELETE", { params: taskId });
   }
-  deleteMany(taskIds){
-    return this.#request("PATCH", {body: {tasks: taskIds}});
+  deleteMany(taskIds) {
+    return this.#request("PATCH", { body: { tasks: taskIds } });
   }
   update(editedTask) {
-    return this.#request("PUT", {body: editedTask, params: editedTask._id});
-  };
+    return this.#request("PUT", { body: editedTask, params: editedTask._id });
+  }
 }
 
 export default TaskApi;
