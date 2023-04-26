@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { Container, Row, Col, InputGroup, Button } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import Task from "../task/Task";
 import ConfirmDialog from "../ConfirmDialog";
 import DeleteSelected from "../deleteSelected/DeleteSelected";
-import TaskApi from "../../api/taskApi";
+import TaskApi from "../../api/taskAPI";
 import TaskModal from "../taskModal/TaskModal";
 
 const taskApi = new TaskApi();
