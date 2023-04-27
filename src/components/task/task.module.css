@@ -11,3 +11,8 @@
 .taskCheckbox {
   margin-bottom: 10px;
 }
+.textShorter{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
