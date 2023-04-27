@@ -4,33 +4,3 @@
   background-color: rgba(226, 226, 247, 0.7);
   min-height: 100vw;
 }
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-.App-header {
-  background: rgb(161, 154, 222);
-  background: -moz-linear-gradient(
-    0deg,
-    rgba(161, 154, 222, 1) 0%,
-    rgba(142, 170, 218, 0.8631827731092436) 100%
-  );
-  background: -webkit-linear-gradient(
-    0deg,
-    rgba(161, 154, 222, 1) 0%,
-    rgba(142, 170, 218, 0.8631827731092436) 100%
-  );
-  background: linear-gradient(
-    0deg,
-    rgba(161, 154, 222, 1) 0%,
-    rgba(142, 170, 218, 0.8631827731092436) 100%
-  );
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#a19ade",endColorstr="#8eaada",GradientType=1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  margin-bottom: 40px;
-  height: 80px;
-}
-

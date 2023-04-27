@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect, memo } from "react";
 import DatePicker from "react-datepicker";
 import { Form, Button, Modal } from "react-bootstrap";
 import styles from "./taskModal.module.css";
-import { formatDate } from "../../tools/dateFormat";
+import { formatDate } from "../../tools/formatDate";
 
 function TaskModal(props) {
   const [title, setTitle] = useState("");
@@ -17,6 +17,7 @@ function TaskModal(props) {
       setTitle(data.title);
       setDescription(data.description);
       setDate(data.date ? new Date(data.date) : new Date());
+      setIsTitleValid(true);
     }
   }, [props]);
 
@@ -38,8 +39,24 @@ function TaskModal(props) {
     setIsTitleValid(!!trimmedTitle);
     setTitle(trimmedTitle);
   };
+
+  useLayoutEffect(() => {
+    const keydownHandler = (event) => {
+      const { key, ctrlKey, metaKey } = event;
+      if (key === 's' && (ctrlKey || metaKey)) {
+        event.preventDefault();
+        saveTaskDatas();
+      }
+    };
+    document.addEventListener("keydown", keydownHandler);
+    return () => {
+      document.removeEventListener("keydown", keydownHandler);
+    };
+    // eslint-disable-next-line
+  }, [title, description, date]);
+
   return (
-    <Modal size="md" show={true} onHide={props.onCancel}>
+    <Modal size="lg" show={true} onHide={props.onCancel}>
       <Modal.Header closeButton>
         <Modal.Title>Add new task</Modal.Title>
       </Modal.Header>
@@ -61,7 +78,9 @@ function TaskModal(props) {
         />
         <div className="d-flex justify-content-center align-items-center text-danger gap-2">
           <h6>Deadline:</h6>
-          <DatePicker showIcon selected={date} onChange={setDate} />
+          <DatePicker
+            showIcon selected={date}
+            onChange={setDate} />
         </div>
       </Modal.Body>
       <Modal.Footer>
@@ -72,7 +91,9 @@ function TaskModal(props) {
         >
           Save
         </Button>
-        <Button variant="warning" onClick={props.onCancel}>
+        <Button
+          variant="warning"
+          onClick={props.onCancel}>
           Cancel
         </Button>
       </Modal.Footer>
@@ -85,4 +106,4 @@ TaskModal.propTypes = {
   data: PropTypes.object,
 };
 
-export default TaskModal;
+export default memo(TaskModal);

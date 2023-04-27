@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import { Row, Col, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -42,4 +42,4 @@ function DeleteSelected(props) {
   );
 }
 
-export default DeleteSelected;
+export default memo(DeleteSelected);
