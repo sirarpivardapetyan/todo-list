@@ -1,0 +1,13 @@
+.navBar {
+    background: rgb(161, 154, 222);
+    background: -moz-linear-gradient(0deg,
+            rgba(161, 154, 222, 1) 0%,
+            rgba(142, 170, 218, 0.8631827731092436) 100%);
+    background: -webkit-linear-gradient(0deg,
+            rgba(161, 154, 222, 1) 0%,
+            rgba(142, 170, 218, 0.8631827731092436) 100%);
+    background: linear-gradient(0deg,
+            rgba(161, 154, 222, 1) 0%,
+            rgba(142, 170, 218, 0.8631827731092436) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#a19ade", endColorstr="#8eaada", GradientType=1);
+}

@@ -11,7 +11,7 @@ function ConfirmDialog(props) {
           {props.tasksCount > 1 ? "tasks" : "task"}?
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body className="d-flex justify-content-center gap-4">
+      <Modal.Body className="d-flex justify-content-center gap-5">
         <Button onClick={props.onSubmit} variant="danger">
           Delete
         </Button>
@@ -26,6 +26,7 @@ function ConfirmDialog(props) {
 ConfirmDialog.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  tasksCount: PropTypes.number.isRequired,
 };
 
 export default ConfirmDialog;

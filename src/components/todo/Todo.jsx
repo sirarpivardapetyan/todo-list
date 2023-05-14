@@ -6,6 +6,8 @@ import ConfirmDialog from "../ConfirmDialog";
 import DeleteSelected from "../deleteSelected/DeleteSelected";
 import TaskApi from "../../api/taskAPI";
 import TaskModal from "../taskModal/TaskModal";
+import NavBar from "../navBar/NavBar";
+import Filters from "../filters/Filters";
 
 const taskApi = new TaskApi();
 
@@ -16,10 +18,18 @@ function Todo() {
   const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
 
+  const getTasks = (filters) => {
+    taskApi.getAll(filters)
+      .then((tasks) => {
+        setTasks(tasks);
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
+  };
+
   useEffect(() => {
-    taskApi.getAll().then((tasks) => {
-      setTasks(tasks);
-    });
+    getTasks();
   }, []);
 
   const onAddNewTaskDatas = (newTask) => {
@@ -54,6 +64,7 @@ function Todo() {
         toast.error(err.message);
       });
   };
+
   const onSelectCheckbox = (taskId) => {
     const selectedTasksCopy = new Set(selectedTasks);
     selectedTasksCopy.has(taskId)
@@ -98,7 +109,7 @@ function Todo() {
       .update(editedTask)
       .then((task) => {
         const copyTasks = [...tasks];
-        const foundIndex = copyTasks.findIndex((t)=>t._id === task._id);
+        const foundIndex = copyTasks.findIndex((t) => t._id === task._id);
         copyTasks[foundIndex] = task;
         setTasks(copyTasks);
         toast.success(`Tasks havs been updated successfully!`);
@@ -108,21 +119,30 @@ function Todo() {
         toast.error(err.message);
       });
   };
+
+  const onFilter = (filters) => {
+    getTasks(filters);
+  };
+
   return (
     <Container>
-      <Row className="justify-content-center mb-4">
-        <Col xs="6" sm="4" md="3">
+      <Row>
+        <NavBar />
+      </Row>
+      <Row className="justify-content-center mb-4 mt-3">
+        <Col xs={6} sm={4} md={3}>
           <Button
-            variant="btn btn-outline-success"
+            variant="btn btn-outline-success "
             onClick={() => setIsAddTaskModalOpen(true)}
           >
             Add new task
           </Button>
         </Col>
       </Row>
+
       <Row>
-        <Col xs="12" sm="12" md="12">
-          <div className="d-flex justify-content-end align-items-center gap-3">
+        <Col xs={12} sm={12} md={12}>
+          <div className="d-flex justify-content-end align-items-center gap-3 mb-3">
             <Button variant="outline-warning" onClick={selectAllTasks}>
               Select all
             </Button>
@@ -133,6 +153,9 @@ function Todo() {
         </Col>
       </Row>
       <Row>
+        <Filters onFilter={onFilter} />
+      </Row>
+      <Row className="d-flex justify-content-center">
         {tasks.map((task) => {
           return (
             <Task
@@ -142,6 +165,7 @@ function Todo() {
               onSelectCheckbox={onSelectCheckbox}
               checked={selectedTasks.has(task._id)}
               onTaskEdit={setEditingTask}
+              onStatusChange={onEditTask}
             />
           );
         })}

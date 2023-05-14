@@ -2,14 +2,14 @@ import PropTypes from "prop-types";
 import { memo } from "react";
 import { Col, Button, Card, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan, faPenToSquare, faCheck, faHistory } from "@fortawesome/free-solid-svg-icons";
 import styles from "./task.module.css";
-import { formatDate } from "../../tools/dateFormat";
+import { formatDate } from "../../tools/formatDate";
 
 function Task(props) {
   const taskData = props.data;
   return (
-    <Col>
+    <Col xs={9} sm={6} md={6} lg={4}>
       <Card
         bg="light"
         border="info"
@@ -29,14 +29,13 @@ function Task(props) {
               Status: {taskData.status}
             </Card.Text>
           </div>
-
-          <Card.Title className={styles.textShorter}>
+          <Card.Title className={`${styles.textShorter} pb-5`}>
             {taskData.title}
           </Card.Title>
-          <Card.Text className={styles.textShorter}>
+          <Card.Text className={styles.textShorter} >
             {taskData.description}
           </Card.Text>
-          <div className="d-flex gap-5  ">
+          <div className="d-flex gap-5">
             {" "}
             <Card.Text className="text-success">
               Created_at: <br />
@@ -48,6 +47,23 @@ function Task(props) {
             </Card.Text>
           </div>
           <div className={styles.taskButtons}>
+            {
+              taskData.status === "active" ?
+                <Button
+                  className={styles.statusButton}
+                  title="Mark as done"
+                  variant="success"
+                  onClick={() => props.onStatusChange({ status: "done", _id: taskData._id })}>
+                  <FontAwesomeIcon icon={faCheck} />
+                </Button> :
+                <Button
+                  className={styles.statusButton}
+                  title="Mark as active"
+                  variant="info"
+                  onClick={() => props.onStatusChange({ status: "active", _id: taskData._id })}>
+                  <FontAwesomeIcon icon={faHistory} />
+                </Button>
+            }
             <Button
               className={styles.editButton}
               variant="warning"
@@ -71,12 +87,15 @@ function Task(props) {
     </Col>
   );
 }
+
 Task.propTypes = {
   data: PropTypes.object.isRequired,
   onDeleteButton: PropTypes.func.isRequired,
   onSelectCheckbox: PropTypes.func.isRequired,
   checked: PropTypes.bool.isRequired,
   onTaskEdit: PropTypes.func.isRequired,
+  onStatusChange: PropTypes.func.isRequired,
+
 };
 
 export default memo(Task);
