@@ -9,5 +9,18 @@
     background: linear-gradient(0deg,
             rgba(161, 154, 222, 1) 0%,
             rgba(142, 170, 218, 0.8631827731092436) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#a19ade", endColorstr="#8eaada", GradientType=1);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#a19ade", endColorstr="#8eaada", 
+    GradientType=1);
+
 }
+
+    .navLink{
+        color: #fff;
+        text-decoration: none;
+        font-weight: 800;
+        margin-right: 20px;
+
+    }
+    .active {
+        color: rgb(54, 42, 165);
+    }

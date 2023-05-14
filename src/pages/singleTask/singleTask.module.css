@@ -1,0 +1,34 @@
+.actionButton{
+    margin-left: 10px;
+}
+.actionButtons{
+display: flex;
+justify-content: right;
+}
+.taskContainer{
+    height: calc(100vh - 40px);
+    display: flex;
+    align-items: center;
+}
+
+
+.taskButtons {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .editButton {
+    margin-right: 10px;
+  }
+  .statusButton{
+    margin-right: 10px;
+  }
+  .taskCheckbox input {
+    cursor: pointer;
+  }
+  .taskCheckbox {
+    margin-bottom: 10px;
+  }
+  .page{
+overflow: auto;
+
+  }
