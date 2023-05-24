@@ -55,10 +55,11 @@ function TaskModal(props) {
     // eslint-disable-next-line
   }, [title, description, date]);
 
+  const modalTitle = props.data ? 'Edit task' : 'Add new task';
   return (
     <Modal size="lg" show={true} onHide={props.onCancel}>
       <Modal.Header closeButton>
-        <Modal.Title>Add new task</Modal.Title>
+        <Modal.Title>{modalTitle}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form.Control

@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { ToastContainer, toast } from "react-toastify";
-import Task from "../task/Task";
-import ConfirmDialog from "../ConfirmDialog";
-import DeleteSelected from "../deleteSelected/DeleteSelected";
-import TaskApi from "../../api/taskAPI";
-import TaskModal from "../taskModal/TaskModal";
-import NavBar from "../navBar/NavBar";
-import Filters from "../filters/Filters";
+import { toast } from "react-toastify";
+import TaskApi from "../../api/taskAPI"
+import Task from "../../components/task/Task";
+import ConfirmDialog from "../../components/ConfirmDialog";
+import DeleteSelected from "../../components/deleteSelected/DeleteSelected";
+import TaskModal from "../../components/taskModal/TaskModal";
+import Filters from "../../components/filters/Filters";
 
 const taskApi = new TaskApi();
 
@@ -127,7 +126,7 @@ function Todo() {
   return (
     <Container>
       <Row>
-        <NavBar />
+        
       </Row>
       <Row className="justify-content-center mb-4 mt-3">
         <Col xs={6} sm={4} md={3}>
@@ -204,18 +203,7 @@ function Todo() {
           data={editingTask}
         />
       )}
-      <ToastContainer
-        position="bottom-left"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
+      
     </Container>
   );
 }

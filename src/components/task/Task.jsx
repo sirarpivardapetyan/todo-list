@@ -3,6 +3,7 @@ import { memo } from "react";
 import { Col, Button, Card, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faPenToSquare, faCheck, faHistory } from "@fortawesome/free-solid-svg-icons";
+import {Link} from 'react-router-dom';
 import styles from "./task.module.css";
 import { formatDate } from "../../tools/formatDate";
 
@@ -25,7 +26,7 @@ function Task(props) {
                 props.onSelectCheckbox(taskData._id);
               }}
             />
-            <Card.Text className="text-info">
+            <Card.Text className= {`${taskData.status === "active" ? "text-info" : "text-success"}`   }>
               Status: {taskData.status}
             </Card.Text>
           </div>
@@ -35,6 +36,9 @@ function Task(props) {
           <Card.Text className={styles.textShorter} >
             {taskData.description}
           </Card.Text>
+          <Link className = "text-decoration-none" to={`/task/${taskData._id}`}>
+          <Card.Text className = "text-warning text-decoration-none">Show details...</Card.Text>
+          </Link>
           <div className="d-flex gap-5">
             {" "}
             <Card.Text className="text-success">
@@ -45,7 +49,9 @@ function Task(props) {
               Deadline: <br />
               {formatDate(taskData.date)}
             </Card.Text>
+            
           </div>
+         
           <div className={styles.taskButtons}>
             {
               taskData.status === "active" ?
