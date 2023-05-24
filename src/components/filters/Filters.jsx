@@ -31,10 +31,10 @@ const dateOptions = [
 ];
 
 const initialDateFilters = {
-  create_lte: '',
-  create_gte: '',
-  complete_lte: '',
-  complete_gte: '',
+  create_lte: "",
+  create_gte: "",
+  complete_lte: "",
+  complete_gte: "",
 };
 
 const initialOptionFilters = {
@@ -62,7 +62,7 @@ function Filters(props) {
     setOptionFilters({
       ...optionFilters,
       [name]: value,
-    })
+    });
   };
 
   const onSearchChange = (event) => {
@@ -72,7 +72,7 @@ function Filters(props) {
   const onDateChange = (name, date) => {
     setDateFilters({
       ...dateFilters,
-      [name]: formatDate(date)
+      [name]: formatDate(date),
     });
   };
 
@@ -81,7 +81,7 @@ function Filters(props) {
       search: search,
       ...dateFilters,
       ...optionFilters,
-    }
+    };
     props.onFilter(filters);
   };
 
@@ -112,9 +112,9 @@ function Filters(props) {
               <span
                 onClick={resetFilters}
                 className="btn btn-outline-info"
-                title="Reset filters">
-                <FontAwesomeIcon icon={faRefresh}
-                />
+                title="Reset filters"
+              >
+                <FontAwesomeIcon icon={faRefresh} />
               </span>
             </div>
           </Form>
@@ -125,7 +125,10 @@ function Filters(props) {
               {dateOptions.map((dateOption) => {
                 const dateValue = dateFilters[dateOption.value];
                 return (
-                  <Col sm={6} md={4} lg={3}
+                  <Col
+                    sm={6}
+                    md={4}
+                    lg={3}
                     className="text-center text-success"
                     key={dateOption.label}
                   >
@@ -134,11 +137,13 @@ function Filters(props) {
                       <DatePicker
                         showIcon
                         selected={dateValue ? new Date(dateValue) : ""}
-                        onChange={(date) => onDateChange(dateOption.value, date)}
+                        onChange={(date) =>
+                          onDateChange(dateOption.value, date)
+                        }
                       />
                     </fieldset>
                   </Col>
-                )
+                );
               })}
             </Row>
             <Row>
@@ -146,7 +151,9 @@ function Filters(props) {
                 <fieldset>
                   <legend className="text-info">Status</legend>
                   <Form.Select
-                    onChange={(event) => onFilterOptionChange("status", event.target.value)}
+                    onChange={(event) =>
+                      onFilterOptionChange("status", event.target.value)
+                    }
                     value={optionFilters.status}
                   >
                     {statusOptions.map((statusOption) => (
@@ -156,8 +163,7 @@ function Filters(props) {
                       >
                         {statusOption.label}
                       </option>
-                    )
-                    )}
+                    ))}
                   </Form.Select>
                 </fieldset>
               </Col>
@@ -165,14 +171,13 @@ function Filters(props) {
                 <fieldset>
                   <legend className="text-info">Sort</legend>
                   <Form.Select
-                    onChange={(event) => onFilterOptionChange("sort", event.target.value)}
+                    onChange={(event) =>
+                      onFilterOptionChange("sort", event.target.value)
+                    }
                     value={optionFilters.sort}
                   >
                     {sortOptions.map((sortOption) => (
-                      <option
-                        key={sortOption.label}
-                        value={sortOption.value}
-                      >
+                      <option key={sortOption.label} value={sortOption.value}>
                         {sortOption.label}
                       </option>
                     ))}
@@ -189,6 +194,6 @@ function Filters(props) {
 
 Filters.propTypes = {
   onFilter: PropTypes.func.isRequired,
-}
+};
 
 export default memo(Filters);

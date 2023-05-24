@@ -1,26 +1,26 @@
 .form {
-    width: calc(100% - 40px);
+  width: calc(100% - 40px);
 }
 
 .filterItem {
-    font-size: 16px;
+  font-size: 16px;
 }
 
-.filterItem>legend {
-    font-size: 20px;
+.filterItem > legend {
+  font-size: 20px;
 }
 
 @media (max-width: 440px) {
-    .form {
-        flex-direction: column;
-    }
+  .form {
+    flex-direction: column;
+  }
 
-    .search {
-        margin-bottom: 10px;
-    }
+  .search {
+    margin-bottom: 10px;
+  }
 
-    .searchButtons {
-        flex-direction: row-reverse;
-        gap: 8px;
-    }
+  .searchButtons {
+    flex-direction: row-reverse;
+    gap: 8px;
+  }
 }

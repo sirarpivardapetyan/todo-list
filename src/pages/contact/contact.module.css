@@ -11,7 +11,8 @@
   cursor: pointer;
   max-width: 200px;
 }
-.errorMessage,  .invalid{
+.errorMessage,
+.invalid {
   border: 1px solid #f00;
   max-width: 500px;
   border-radius: 20px;
