@@ -43,7 +43,7 @@ function TaskModal(props) {
   useLayoutEffect(() => {
     const keydownHandler = (event) => {
       const { key, ctrlKey, metaKey } = event;
-      if (key === 's' && (ctrlKey || metaKey)) {
+      if (key === "s" && (ctrlKey || metaKey)) {
         event.preventDefault();
         saveTaskDatas();
       }
@@ -55,7 +55,7 @@ function TaskModal(props) {
     // eslint-disable-next-line
   }, [title, description, date]);
 
-  const modalTitle = props.data ? 'Edit task' : 'Add new task';
+  const modalTitle = props.data ? "Edit task" : "Add new task";
   return (
     <Modal size="lg" show={true} onHide={props.onCancel}>
       <Modal.Header closeButton>
@@ -79,9 +79,7 @@ function TaskModal(props) {
         />
         <div className="d-flex justify-content-center align-items-center text-danger gap-2">
           <h6>Deadline:</h6>
-          <DatePicker
-            showIcon selected={date}
-            onChange={setDate} />
+          <DatePicker showIcon selected={date} onChange={setDate} />
         </div>
       </Modal.Body>
       <Modal.Footer>
@@ -92,9 +90,7 @@ function TaskModal(props) {
         >
           Save
         </Button>
-        <Button
-          variant="warning"
-          onClick={props.onCancel}>
+        <Button variant="warning" onClick={props.onCancel}>
           Cancel
         </Button>
       </Modal.Footer>

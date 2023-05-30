@@ -5,7 +5,7 @@
 .editButton {
   margin-right: 10px;
 }
-.statusButton{
+.statusButton {
   margin-right: 10px;
 }
 .taskCheckbox input {
@@ -14,7 +14,7 @@
 .taskCheckbox {
   margin-bottom: 10px;
 }
-.textShorter{
+.textShorter {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;

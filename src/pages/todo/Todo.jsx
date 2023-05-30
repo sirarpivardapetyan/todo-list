@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
-import TaskApi from "../../api/taskAPI"
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../redux/reducers/loader";
+import { setTasksCount } from "../../redux/reducers/counterSlice";
+import TaskApi from "../../api/taskAPI";
 import Task from "../../components/task/Task";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import DeleteSelected from "../../components/deleteSelected/DeleteSelected";
@@ -11,6 +14,7 @@ import Filters from "../../components/filters/Filters";
 const taskApi = new TaskApi();
 
 function Todo() {
+  const dispatch = useDispatch();
   const [tasks, setTasks] = useState([]);
   const [selectedTasks, setSelectedTasks] = useState(new Set());
   const [taskToDelete, setTaskToDelete] = useState(null);
@@ -18,20 +22,29 @@ function Todo() {
   const [editingTask, setEditingTask] = useState(null);
 
   const getTasks = (filters) => {
-    taskApi.getAll(filters)
+    dispatch(setLoader(true));
+    taskApi
+      .getAll(filters)
       .then((tasks) => {
         setTasks(tasks);
       })
       .catch((err) => {
         toast.error(err.message);
-      });
+      })
+      .finally(() => dispatch(setLoader(false)));
   };
 
   useEffect(() => {
     getTasks();
+    // eslint-disable-next-line
   }, []);
 
+  useEffect(() => {
+    dispatch(setTasksCount(tasks.length));
+  }, [tasks.length, dispatch]);
+
   const onAddNewTaskDatas = (newTask) => {
+    dispatch(setLoader(true));
     taskApi
       .add(newTask)
       .then((task) => {
@@ -43,10 +56,12 @@ function Todo() {
       })
       .catch((err) => {
         toast.error(err.message);
-      });
+      })
+      .finally(() => dispatch(setLoader(false)));
   };
 
   const onDeleteButton = (taskId) => {
+    dispatch(setLoader(true));
     taskApi
       .delete(taskId)
       .then(() => {
@@ -61,7 +76,8 @@ function Todo() {
       })
       .catch((err) => {
         toast.error(err.message);
-      });
+      })
+      .finally(() => dispatch(setLoader(false)));
   };
 
   const onSelectCheckbox = (taskId) => {
@@ -73,6 +89,7 @@ function Todo() {
   };
 
   const deleteSelectedTasks = () => {
+    dispatch(setLoader(true));
     taskApi
       .deleteMany([...selectedTasks])
       .then(() => {
@@ -91,7 +108,8 @@ function Todo() {
       })
       .catch((err) => {
         toast.error(err.message);
-      });
+      })
+      .finally(() => dispatch(setLoader(false)));
   };
 
   const selectAllTasks = () => {
@@ -104,6 +122,7 @@ function Todo() {
   };
 
   const onEditTask = (editedTask) => {
+    dispatch(setLoader(true));
     taskApi
       .update(editedTask)
       .then((task) => {
@@ -116,7 +135,8 @@ function Todo() {
       })
       .catch((err) => {
         toast.error(err.message);
-      });
+      })
+      .finally(() => dispatch(setLoader(false)));
   };
 
   const onFilter = (filters) => {
@@ -125,9 +145,7 @@ function Todo() {
 
   return (
     <Container>
-      <Row>
-        
-      </Row>
+      <Row></Row>
       <Row className="justify-content-center mb-4 mt-3">
         <Col xs={6} sm={4} md={3}>
           <Button
@@ -203,7 +221,6 @@ function Todo() {
           data={editingTask}
         />
       )}
-      
     </Container>
   );
 }
